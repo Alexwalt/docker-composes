@@ -1,0 +1,55 @@
+version: "3"
+
+networks:
+  net:
+
+services:
+  mysql-primary:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    # privileged: true
+    ports:
+      - "33306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - net
+    # tty: true
+    volumes:
+      - ./data/mysql-primary:/var/lib/mysql
+      - /etc/localtime:/etc/localtime
+      # - ./config/my.cnf:/etc/mysql
+  mysql-secondby:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    # privileged: true
+    ports:
+      - "33307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - net
+    # tty: true
+    volumes:
+      - ./data/mysql-second:/var/lib/mysql
+      - /etc/localtime:/etc/localtime
+
+      # - ./config/my.cnf:/etc/mysql
+  mysql-delay:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    # privileged: true
+    ports:
+      - "33308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - net
+    # tty: true
+    volumes:
+      - ./data/mysql-delay:/var/lib/mysql
+      - /etc/localtime:/etc/localtime
+      # - ./config/my.cnf:/etc/mysql
