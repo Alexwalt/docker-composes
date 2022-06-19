@@ -1,0 +1,45 @@
+version: "3"
+
+networks:
+  mongo-net:
+
+services:
+  mongo-primary:
+    image: mongo:5.0
+    restart: always
+    # privileged: true
+    ports:
+      - "37017:27017"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - mongo-net
+    # tty: true
+    volumes:
+      - /etc/localtime:/etc/localtime
+  mongo-secondby1:
+    image: mongo:5.0
+    restart: always
+    # privileged: true
+    ports:
+      - "37018:27017"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - mongo-net
+    # tty: true
+    volumes:
+      - /etc/localtime:/etc/localtime
+  mongo-secondby1:
+    image: mongo:5.0
+    restart: always
+    # privileged: true
+    ports:
+      - "37019:27017"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - mongo-net
+    # tty: true
+    volumes:
+      - /etc/localtime:/etc/localtime
