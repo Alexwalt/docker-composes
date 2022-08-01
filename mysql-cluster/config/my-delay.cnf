@@ -21,3 +21,8 @@ max_connections=65532
 
 # 修改日志时区跟随系统
 log_timestamps = SYSTEM
+
+# REPLICA也写binlog
+log-slave-update=1
+# 开启GTID模式
+# gtid_mode=ON
