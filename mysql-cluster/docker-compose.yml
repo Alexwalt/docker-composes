@@ -19,7 +19,7 @@ services:
     volumes:
       - ./data/mysql-primary:/var/lib/mysql
       - /etc/localtime:/etc/localtime
-      # - ./config/my.cnf:/etc/mysql
+      - ./config/my-primary.cnf:/etc/mysql/my.cnf
   mysql-secondby:
     image: mysql:5.7
     command: --default-authentication-plugin=mysql_native_password
@@ -35,8 +35,7 @@ services:
     volumes:
       - ./data/mysql-second:/var/lib/mysql
       - /etc/localtime:/etc/localtime
-
-      # - ./config/my.cnf:/etc/mysql
+      - ./config/my-secondby.cnf:/etc/mysql/my.cnf
   mysql-delay:
     image: mysql:5.7
     command: --default-authentication-plugin=mysql_native_password
@@ -52,4 +51,4 @@ services:
     volumes:
       - ./data/mysql-delay:/var/lib/mysql
       - /etc/localtime:/etc/localtime
-      # - ./config/my.cnf:/etc/mysql
+      - ./config/my-delay.cnf:/etc/mysql/my.cnf

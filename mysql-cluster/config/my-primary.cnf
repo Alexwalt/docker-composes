@@ -1,0 +1,24 @@
+[mysqld]
+
+server-id=1
+datadir=/var/lib/mysql
+log-bin=mysql-bin
+binlog_format = ROW
+max_binlog_cache_size = 2G
+max_binlog_size = 1G
+# expire_logs_days=7
+
+character-set-server=utf8mb4
+collation-server=utf8mb4_general_ci
+
+explicit_defaults_for_timestamp=true
+# 表名不区分大小写
+lower_case_table_names=1
+
+max_connections=65532
+
+## bin-log日志过期时间
+#expire_logs_days = 7
+
+# 修改日志时区跟随系统
+log_timestamps = SYSTEM
