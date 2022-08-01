@@ -1,0 +1,18 @@
+version: '3.1'
+services:
+  oracle:
+    image: registry.cn-hangzhou.aliyuncs.com/helowin/oracle_11g
+    restart: always
+    ports:
+      - "1521:1521"
+    volumes:
+      - type: bind
+        source: ./data/app/oracle/oradata/helowin
+        target: /home/oracle/app/oracle/oradata/helowin
+      - type: bind
+        source: ./data/app/oracle/flash_recovery_area
+        target: /home/oracle/app/oracle/flash_recovery_area
+      #- type: bind
+      #  source: ./data/app/oracle
+      #  target: /home/oracle/app/oracle
+      - /etc/localtime:/etc/localtime
