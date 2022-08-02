@@ -24,6 +24,7 @@ max_connections=65532
 log_timestamps = SYSTEM
 
 # REPLICA也写binlog
-log-slave-update=1
+log-slave-updates=1
 # 开启GTID模式
-# gtid_mode=ON
+gtid_mode=ON
+enforce_gtid_consistency = TRUE

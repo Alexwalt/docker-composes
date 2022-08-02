@@ -36,19 +36,19 @@ services:
       - ./data/mysql-second:/var/lib/mysql
       - /etc/localtime:/etc/localtime
       - ./config/my-secondby.cnf:/etc/mysql/my.cnf
-  mysql-delay:
-    image: mysql:5.7
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
-    # privileged: true
-    ports:
-      - "33308:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-    networks:
-      - net
-    # tty: true
-    volumes:
-      - ./data/mysql-delay:/var/lib/mysql
-      - /etc/localtime:/etc/localtime
-      - ./config/my-delay.cnf:/etc/mysql/my.cnf
+  # mysql-delay:
+  #   image: mysql:5.7
+  #   command: --default-authentication-plugin=mysql_native_password
+  #   restart: always
+  #   # privileged: true
+  #   ports:
+  #     - "33308:3306"
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: root
+  #   networks:
+  #     - net
+  #   # tty: true
+  #   volumes:
+  #     - ./data/mysql-delay:/var/lib/mysql
+  #     - /etc/localtime:/etc/localtime
+  #     - ./config/my-delay.cnf:/etc/mysql/my.cnf
