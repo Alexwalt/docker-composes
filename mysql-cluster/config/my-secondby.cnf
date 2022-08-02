@@ -4,6 +4,7 @@ server-id=10
 datadir=/var/lib/mysql
 log-bin=mysql-bin
 binlog_format = ROW
+# binlog_row_image = full
 max_binlog_cache_size = 2G
 max_binlog_size = 1G
 
