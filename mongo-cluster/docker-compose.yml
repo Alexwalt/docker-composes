@@ -11,35 +11,48 @@ services:
     ports:
       - "37017:27017"
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secret 
     networks:
       - mongo-net
     # tty: true
     volumes:
       - /etc/localtime:/etc/localtime
-  mongo-secondby1:
-    image: mongo:5.0
-    restart: always
-    # privileged: true
-    ports:
-      - "37018:27017"
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-    networks:
-      - mongo-net
-    # tty: true
-    volumes:
-      - /etc/localtime:/etc/localtime
-  mongo-secondby1:
-    image: mongo:5.0
-    restart: always
-    # privileged: true
-    ports:
-      - "37019:27017"
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-    networks:
-      - mongo-net
-    # tty: true
-    volumes:
-      - /etc/localtime:/etc/localtime
+      # - ./conf/mongod.conf:/etc/mongod.conf
+      - ./data:/data/db
+      # - ./mongodb.key:/data/mongodb.key
+    # command: ["mongo" ,"--config","/etc/mongod.conf"]
+    # command: mongod --replSet mongos --keyFile /data/mongodb.key
+    # entrypoint:
+    #   - bash
+    #   - -c
+    #   - |
+    #     chmod 400 /data/mongodb.key
+    #     chown 999:999 /data/mongodb.key
+    #     exec docker-entrypoint.sh $$@
+  # mongo-secondby1:
+  #   image: mongo:5.0
+  #   restart: always
+  #   # privileged: true
+  #   ports:
+  #     - "37018:27017"
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: root
+  #   networks:
+  #     - mongo-net
+  #   # tty: true
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime
+  # mongo-secondby1:
+  #   image: mongo:5.0
+  #   restart: always
+  #   # privileged: true
+  #   ports:
+  #     - "37019:27017"
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: root
+  #   networks:
+  #     - mongo-net
+  #   # tty: true
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime
