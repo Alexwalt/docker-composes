@@ -1,0 +1,56 @@
+version: "3"
+
+networks:
+  mongo-net:
+
+services:
+  mongo-primary:
+    image: mongo:5.0
+    restart: always
+    # privileged: true
+    ports:
+      - "47017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secret 
+    networks:
+      - mongo-net
+    # tty: true
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ./conf:/etc/mongo
+      - ./data:/data/db
+      # - ./mongodb.key:/data/mongodb.key
+    command:   "--config /etc/mongo/mongod.conf"
+  # mongo-secondby1:
+  #   image: mongo:5.0
+  #   restart: always
+  #   # privileged: true
+  #   ports:
+  #     - "47018:27017"
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: admin
+  #     MONGO_INITDB_ROOT_PASSWORD: secret 
+  #   networks:
+  #     - mongo-net
+  #   # tty: true
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime
+  #     - ./conf:/etc/mongo
+  #     - ./data2:/data/db
+  #     # - ./mongodb.key:/data/mongodb.key
+  #   command:   "--config /etc/mongo/mongod.conf"
+
+  # mongo-secondby1:
+  #   image: mongo:5.0
+  #   restart: always
+  #   # privileged: true
+  #   ports:
+  #     - "37019:27017"
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: root
+  #   networks:
+  #     - mongo-net
+  #   # tty: true
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime
