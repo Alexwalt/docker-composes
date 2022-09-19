@@ -1,0 +1,68 @@
+version: "3.2"
+services:
+  mongo1:
+    image: mongo:4.4
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root1234
+    extra_hosts:
+      - "mongo1.alexwalt.net:192.168.2.128"
+      - "mongo2.alexwalt.net:192.168.2.128"
+      - "mongo3.alexwalt.net:192.168.2.128"
+    dns:
+      - 223.5.5.5
+      - 114.114.114.114
+    # mem_limit: 7G
+    ports:
+      - "23680:27017"
+    volumes:
+      # - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime
+      - /etc/localtime:/etc/localtime
+      # - ./conf/mongod.conf:/etc/mongod.conf
+      - ./mongo1/db:/data/db
+      - ./keyfile.key:/data/keyfile.key
+    command: mongod --replSet rs0 --keyFile=/data/keyfile.key --auth
+  mongo2:
+    image: mongo:4.4
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root1234
+    extra_hosts:
+      - "mongo1.alexwalt.net:192.168.2.128"
+      - "mongo2.alexwalt.net:192.168.2.128"
+      - "mongo3.alexwalt.net:192.168.2.128"
+    dns:
+      - 223.5.5.5
+      - 114.114.114.114
+    # mem_limit: 7G
+    ports:
+      - "23681:27017"
+    volumes:
+      - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime
+      - ./mongo2/db:/data/db
+      - ./keyfile.key:/data/keyfile.key
+    command: mongod --replSet rs0 --keyFile=/data/keyfile.key --auth
+  mongo3:
+    image: mongo:4.4
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root1234
+    extra_hosts:
+      - "mongo1.alexwalt.net:192.168.2.128"
+      - "mongo2.alexwalt.net:192.168.2.128"
+      - "mongo3.alexwalt.net:192.168.2.128"
+    dns:
+      - 223.5.5.5
+      - 114.114.114.114
+    # mem_limit: 7G
+    ports:
+      - "23682:27017"
+    volumes:
+      - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime
+      - ./mongo3/db:/data/db
+      - ./keyfile.key:/data/keyfile.key
+    command: mongod --replSet rs0 --keyFile=/data/keyfile.key --auth
+
