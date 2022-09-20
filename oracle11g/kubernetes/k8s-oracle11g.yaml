@@ -1,0 +1,111 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: oracle11g-external
+  labels:
+    app: oracle11g
+  namespace: cloudladder-oracle
+spec:
+  type: NodePort
+  ports:
+  - name: 'oracle11g-port'
+    port: 1522
+    targetPort: 1521
+    protocol: TCP
+  selector:
+    app: oracle11g
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: oracle11g
+  namespace: cloudladder-oracle
+spec:
+  selector:
+    matchLabels:
+      app: oracle11g
+  serviceName: oracle11g
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: oracle11g
+      namespace: cloudladder-oracle
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: 10-65-98-86-5508-center-01
+      volumes:
+        - name: data-flash-recovery-area-helowin-up
+          hostPath:
+            path: /datavolume/oracle2/flash_recovery_area/HELOWIN
+        - name: data-flash-recovery-area-helowin
+          hostPath:
+            path: /datavolume/oracle2/flash_recovery_area/helowin
+        - name: data-helowin
+          hostPath:
+            path: /datavolume/oracle2/helowin/
+        - name: oracle-root
+          hostPath:
+            path: /datavolume/oracle2/
+      initContainers:
+      - name: copy-dir
+        image: registry.cn-hangzhou.aliyuncs.com/helowin/oracle_11g
+        command:
+        - bash
+        - "-c"
+        - |
+          set -ex
+          if [[ ! -d /oracle-root/flash_recovery_area/HELOWIN ]];then
+            mkdir -p /oracle-root/flash_recovery_area/HELOWIN
+            cp -r /home/oracle/app/oracle/flash_recovery_area/HELOWIN/* /oracle-root/flash_recovery_area/HELOWIN/
+          fi
+
+          if [[ ! -d /oracle-root/flash_recovery_area/helowin ]];then
+            mkdir -p /oracle-root/flash_recovery_area/helowin
+            cp -r /home/oracle/app/oracle/flash_recovery_area/helowin/* /oracle-root/flash_recovery_area/helowin/
+          fi 
+
+          if [[ ! -d /oracle-root/helowin ]] ;then
+            mkdir -p /oracle-root/helowin
+            cp -r /home/oracle/app/oracle/oradata/helowin/*  /oracle-root/helowin/
+          fi         
+        volumeMounts:
+        - name: oracle-root
+          mountPath: /oracle-root
+      containers:
+      - name: oracle11g
+        image: registry.cn-hangzhou.aliyuncs.com/helowin/oracle_11g
+        ports:
+        - name: oracle11g
+          containerPort: 1521
+        volumeMounts:
+        - name: data-flash-recovery-area-helowin-up
+          mountPath: /home/oracle/app/oracle/flash_recovery_area/HELOWIN
+        - name: data-flash-recovery-area-helowin
+          mountPath: /home/oracle/app/oracle/flash_recovery_area/helowin
+        - name: data-helowin
+          mountPath: /home/oracle/app/oracle/oradata/helowin/
+        resources:
+          requests:
+            cpu: 500m
+            memory: 512Mi
+          limits:
+            cpu: 2
+            memory: 2Gi
+        command:
+          - "bash"
+          - "-c"
+          - |
+            source /home/oracle/.bash_profile
+            lsnrctl start
+            tail -f /home/oracle/app/oracle/diag/rdbms/helowin/helowin/trace/*
+
+  # volumeClaimTemplates:
+  # - metadata:
+  #     name: data
+  #   spec:
+  #     storageClassName: "nfs-storage" # 必填 
+  #     accessModes: [ "ReadWriteOnce" ]
+  #     resources:
+  #       requests:
+  #         storage: 1Gi
