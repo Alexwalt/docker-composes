@@ -1,0 +1,1 @@
+deployment by docker-compose, contain 3 redis nodes and 3 sentinel nodes, redis configure file version 6.0.16, be sure which redis version do you use, get the same configure file in same version

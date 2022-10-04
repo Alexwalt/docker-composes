@@ -1,0 +1,56 @@
+version: '3.2'
+services:
+  redis1:
+    image: redis:6.0.16
+    ports:
+      - "6390:6390"
+    volumes:
+      # - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime
+      - /etc/localtime:/etc/localtime
+      - ./conf/redis1.conf:/etc/redis/redis.conf
+    command: redis-server /etc/redis/redis.conf
+  redis2:
+    image: redis:6.0.16
+    ports:
+      - "6391:6391"
+    volumes:
+      # - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime
+      - /etc/localtime:/etc/localtime
+      - ./conf/redis2.conf:/etc/redis/redis.conf
+    command: redis-server /etc/redis/redis.conf
+  redis3:
+    image: redis:6.0.16
+    ports:
+      - "6392:6392"
+    volumes:
+      # - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime
+      - /etc/localtime:/etc/localtime
+      - ./conf/redis3.conf:/etc/redis/redis.conf
+    command: redis-server /etc/redis/redis.conf
+  redis-sentinel1:
+    image: redis:6.0.16
+    ports:
+      - "26379:26379"
+    volumes:
+      # - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime
+      - /etc/localtime:/etc/localtime
+      - ./conf/sentinel1.conf:/etc/redis/sentinel.conf
+    command: redis-sentinel /etc/redis/sentinel.conf
+  redis-sentinel2:
+    image: redis:6.0.16
+    ports:
+      - "26380:26379"
+    volumes:
+      # - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime
+      - /etc/localtime:/etc/localtime
+      - ./conf/sentinel2.conf:/etc/redis/sentinel.conf
+    command: redis-sentinel /etc/redis/sentinel.conf
+  redis-sentinel3:
+    image: redis:6.0.16
+    ports:
+      - "26381:26379"
+    volumes:
+      # - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime
+      - /etc/localtime:/etc/localtime
+      - ./conf/sentinel2.conf:/etc/redis/sentinel.conf
+    command: redis-sentinel /etc/redis/sentinel.conf
